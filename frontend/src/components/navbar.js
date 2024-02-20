@@ -4,12 +4,23 @@ import matricesLogo from "../assets/metrics.png";
 import logsLogo from "../assets/list-active.png";
 import matricesLogo2 from "../assets/metrics-gray.png";
 import logsLogo2 from "../assets/list.png";
+import { Link } from 'react-router-dom';
+import PropTypes from "prop-types"
 
-const Navbar = () => {
+const Navbar = ({ onTimeChange }) => {
 
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false); // Add state to manage dropdown visibility
+
+    const [selectedTime, setSelectedTime] = useState("5");
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false); 
     const [isHoveredMatrices, setIsHoveredMatrices] = useState(false);
     const [isHoveredLogs, setIsHoveredLogs] = useState(false);
+
+    const handleTimeChange = (time) => {
+        setSelectedTime(time);
+        onTimeChange(time);
+        setIsDropdownOpen(false);
+    };
+
     return (
         <>
             <nav class="flex w-full justify-between shadow-sm items-center flex-wrap py-4 px-10">
@@ -44,20 +55,20 @@ const Navbar = () => {
                     </div>
                     <div class="w-max flex ml-5 md:flex-0 lg:items-center justify-start lg:w-fit">
                         <div class="text-lg gap-4 md:flex">
-                            <div class="flex mt-4 font-lab-grotesque cursor-pointer gap-1 items-center lg:mt-2 text-gray-500 hover:text-black mr-4 pb-2 hover:border-b-2 hover:border-indigo-800"
-                            onMouseEnter={() => setIsHoveredMatrices(true)}
-                            onMouseLeave={() => setIsHoveredMatrices(false)}
-                        >
-                        <img className="h-3 w-3" src={!isHoveredMatrices ? matricesLogo2 : matricesLogo} />
+                            <Link to={'/'} class="flex mt-4 font-lab-grotesque cursor-pointer gap-1 items-center lg:mt-2 text-gray-500 hover:text-black mr-4 pb-2 hover:border-b-2 hover:border-indigo-800"
+                                onMouseEnter={() => setIsHoveredMatrices(true)}
+                                onMouseLeave={() => setIsHoveredMatrices(false)}
+                            >
+                                <img className="h-3 w-3" src={!isHoveredMatrices ? matricesLogo2 : matricesLogo} />
                                 Matrices
-                            </div>
-                            <div class="flex block mt-4 font-lab-grotesque cursor-pointer gap-1 items-center lg:mt-2 text-gray-500 hover:text-black mr-4 pb-2 hover:border-b-2 hover:border-indigo-800"
-                            onMouseEnter={() => setIsHoveredLogs(true)}
-                            onMouseLeave={() => setIsHoveredLogs(false)}
-                        >
-                        <img className="h-3 w-3" src={!isHoveredLogs ? logsLogo2 : logsLogo} />
+                            </Link>
+                            <Link to={'/logs'} class="flex block mt-4 font-lab-grotesque cursor-pointer gap-1 items-center lg:mt-2 text-gray-500 hover:text-black mr-4 pb-2 hover:border-b-2 hover:border-indigo-800"
+                                onMouseEnter={() => setIsHoveredLogs(true)}
+                                onMouseLeave={() => setIsHoveredLogs(false)}
+                            >
+                                <img className="h-3 w-3" src={!isHoveredLogs ? logsLogo2 : logsLogo} />
                                 Logs
-                            </div>
+                            </Link>
 
                         </div>
 
@@ -65,7 +76,7 @@ const Navbar = () => {
                     </div>
                 </div>
                 <div className='relative flex right-0 justify-end'>
-                    <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" className="flex items-center p-2 border-2 rounded-md text-xs" type="button" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>Last 5 minutes <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                    <button id="dropdownDefaultButton" data-dropdown-toggle="dropdown" className="flex items-center p-2 border-2 rounded-md text-xs" type="button" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>{(selectedTime === "5" || selectedTime === "15" || selectedTime === "30") ? <>last {selectedTime} minutes</> : ((selectedTime === '1') ? <>last {selectedTime} hour</> : <>last {selectedTime} hours</>)} <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                         <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
                     </svg>
                     </button>
@@ -74,22 +85,28 @@ const Navbar = () => {
                     <div id="dropdown" className={`absolute z-10 top-10 ${isDropdownOpen ? '' : 'hidden'} bg-white divide-y divide-gray-100 rounded-lg shadow-md w-max`}>
                         <ul class="py-2 text-sm " aria-labelledby="dropdownDefaultButton">
                             <li>
-                                <a href="#" class="block px-2 py-2 hover:bg-gray-100 ">Last 5 minutes</a>
+                                <button onClick={() => handleTimeChange("5")} className="block px-4 py-2 hover:bg-gray-100">Last 5 minutes</button>
                             </li>
                             <li>
-                                <a href="#" class="block px-4 py-2 hover:bg-gray-100 ">Last 15 minutes</a>
+                                <button onClick={() => handleTimeChange("15")} className="block px-4 py-2 hover:bg-gray-100">Last 15 minutes</button>
                             </li>
                             <li>
-                                <a href="#" class="block px-4 py-2 hover:bg-gray-100 ">Last 30 minutes</a>
+                                <button onClick={() => handleTimeChange("30")} className="block px-4 py-2 hover:bg-gray-100">Last 30 minutes</button>
                             </li>
                             <li>
-                                <a href="#" class="block px-4 py-2 hover:bg-gray-100 ">Last 1 hour</a>
+                                <button onClick={() => handleTimeChange("1")} className="block px-4 py-2 hover:bg-gray-100">Last 1 hour</button>
                             </li>
                             <li>
-                                <a href="#" class="block px-4 py-2 hover:bg-gray-100 ">Last 3 hours</a>
+                                <button onClick={() => handleTimeChange("3")} className="block px-4 py-2 hover:bg-gray-100">Last 3 hours</button>
                             </li>
                             <li>
-                                <a href="#" class="block px-4 py-2 hover:bg-gray-100 ">Last 6 hours</a>
+                                <button onClick={() => handleTimeChange("6")} className="block px-4 py-2 hover:bg-gray-100">Last 6 hours</button>
+                            </li>
+                            <li>
+                                <button onClick={() => handleTimeChange("12")} className="block px-4 py-2 hover:bg-gray-100">Last 12 hours</button>
+                            </li>
+                            <li>
+                                <button onClick={() => handleTimeChange("24")} className="block px-4 py-2 hover:bg-gray-100">Last 24 hours</button>
                             </li>
                         </ul>
                     </div>
@@ -97,6 +114,10 @@ const Navbar = () => {
             </nav>
         </>
     )
+}
+
+Navbar.propTypes = {
+    onTimeChange: PropTypes.func,
 }
 
 export default Navbar;

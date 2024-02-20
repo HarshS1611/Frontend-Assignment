@@ -1,16 +1,18 @@
-import logo from './logo.svg';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import './App.css';
-import Matrices from './pages/matrices';
-import Logs from './pages/logs';
-import Navbar from './components/navbar';
+import Matrices from './pages/matricesPage';
+import Logs from './pages/logsPage';
+
 
 function App() {
   return (
+    <BrowserRouter>
     <div className="App">
-      <Navbar/>
-     <Matrices/>
-     <Logs/>
-    </div>
+      <Routes>
+        <Route path="/" exact element={<Matrices />} />
+        <Route path='/logs' element={<Logs />} />
+      </Routes>
+    </div></BrowserRouter>
   );
 }
 
