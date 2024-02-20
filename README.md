@@ -1,12 +1,20 @@
 # Frontend-Assignment
 
 ## Project Setup and Component Overview
+
 To set up the project, follow these steps:
 1. Clone the repository.
-2. Install dependencies with npm install.
-3. Start the development server with npm start.
-4. Run tests with npm test.
+2. Navigate to `frontend`.
+3. Install dependencies with `npm install`.
+4. Start the development server with `npm start`.
 5. Build the project for production with npm run build.
+
+## How to run storybook
+
+- Navigate to `frontend`.
+- Run `npm run storybook` on the terminal.
+
+
 
 ## Components Overview
 
